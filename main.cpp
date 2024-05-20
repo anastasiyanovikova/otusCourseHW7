@@ -103,6 +103,5 @@ int main(int argc, char const *argv[])
   long N = 3;
   if(argc > 1)
     N = atoi (argv [1]);
-
   bulk (N);
 }
