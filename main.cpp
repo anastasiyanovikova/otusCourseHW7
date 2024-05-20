@@ -69,7 +69,11 @@ bool bulk (long N)
         time_t rawtime;
         struct tm timeinfo;
         time (&rawtime);
-        localtime_s (&timeinfo, &rawtime);
+        #ifdef __unix__
+          localtime_r (&rawtime, &timeinfo); 
+        #else
+          localtime_s(&timeinfo, &rawtime);
+        #endif
 
         std::ostringstream oss;
         oss << std::put_time (&timeinfo, "%d%m%Y%H%M%S");
@@ -79,7 +83,7 @@ bool bulk (long N)
 
     }
 
-    if (startBlockAmount == 0 && commands.size () == N)
+    if (startBlockAmount == 0 && long(commands.size ()) == N)
     {
       saveBlock (commands, firstTime);
       commands.clear ();
